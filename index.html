@@ -49,6 +49,17 @@
       padding: 0px;
     }
 
+
+    div.horiz-flowchart {
+      display: flex;
+      align-items: center;
+      justify-content: space-around;
+      flex-flow: row wrap;
+    }
+    div.flowchart > div {
+      margin: auto;
+    }
+
     </style>
 
   </head>
@@ -84,8 +95,84 @@
 
         <section>
           <section>
+            <h2>Videos for Apps</h2>
           </section>
         </section>
+
+        <section>
+          <section>
+            <q>You know what would be an awesome<br />platform for this project?</q>
+            <p><img src="assets/drupal-8-logo.png" class="fragment" style="width: 300px;" alt="Drupal 8 would be perfect!" /></p>
+            <p class="fragment">Oh, right, 2013...</p>
+          </section>
+          <section>
+            <h2>Plan B</h2>
+            <ol style="list-style-type: upper-alpha;">
+              <li class="fragment">Drupal 7 with Services</li>
+              <li class="fragment">Drupal 7 with RestWs</li>
+              <li class="fragment">Symfony!</li>
+              <li class="fragment">Silex?</li>
+            </ol>
+            <aside class="notes">
+              <ul>
+                <li>Services: Antiquated approach, not really REST</li>
+                <li>RestWs: Young, still dealing with poor Drupal APIs</li>
+                <li>Symfony: Unfamiliar, would be doing a lot of home-grown work</li>
+                <li>Silex: Very fast, but not even Symfony's UI support</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h2>Why choose?</h2>
+            <div style="display: flex; align-items: flex-start; padding-top: 1em;">
+              <div class="fragment" style="width: 50%;">
+                <img src="assets/druplicon.svg" style="height: 200px;" alt="Drupal 7" />
+                <h3>Drupal 7</h3>
+                <p>Pro: CMS and page display</p>
+                <p>Con: Mediocre at REST</p>
+              </div>
+              <div class="fragment" style="width: 50%;">
+                <img src="assets/silex-logo.png" style="height: 200px;" alt="Silex" />
+                <h3>Silex</h3>
+                <p>Pro: HTTP handling</p>
+                <p>Con: Hand-rolled artisinal UI</p>
+              </div>
+            </div>
+          </section>
+          <section>
+            <div style="position: relative; text-align: center;">
+              <img  src="assets/druplicon.svg" style="height: 600px;" alt="Drupal 7" />
+              <img style="position: absolute; top: 20%; left: calc(50% - 100px); z-index: 10; width: 200px;" src="assets/silex-logo.png" alt="Silex" />
+            </div>
+          </section>
+          <section>
+            <h3>Communication?</h3>
+            <ul>
+              <li class="fragment">Drupal data is Drupal's</li>
+              <li class="fragment">Editorial structure != API structure</li>
+            </ul>
+            <div style="margin-top: 1em;" class="fragment">
+              <h3>Answer</h3>
+              <img src="assets/elasticsearch.png" style="background-color: White;" alt="Elasticsearch"/>
+            </div>
+          </section>
+          <section>
+            <div class="horiz-flowchart">
+              <div class="fragment">Source XML</div>
+              <div class="fragment">=></div>
+              <div class="fragment"><img  src="assets/druplicon.svg" style="height: 200px;" alt="Drupal 7" /></div>
+              <div class="fragment">=></div>
+              <div class="fragment"><img src="assets/elasticsearch.png" style="background-color: White;" alt="Elasticsearch" /></div>
+              <div class="fragment">=></div>
+              <div class="fragment"><img src="assets/silex-logo.png" style="height: 200px;" alt="Silex" /></div>
+              <div class="fragment">=></div>
+              <div class="fragment">Client applications</div>
+            </div>
+
+
+          </section>
+        </section>
+
 
         <section id="final">
           <h2>Larry Garfield, Hagen Last</h2>
