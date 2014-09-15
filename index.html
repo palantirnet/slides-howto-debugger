@@ -359,6 +359,11 @@
               <div>=</div>
               <p>Potentially multiple nodes</p>
             </div>
+            <aside class="notes">
+              <ul>
+                <li>OOP made it easy</li>
+              </ul>
+            </aside>
           </section>
           <section>
             <h2>HTTP</h2>
@@ -391,11 +396,12 @@
               <li class="fragment">Rules has too many moving parts</li>
               <li class="fragment">Exporting some nodes requires others</li>
             </ul>
-            <p class="fragment">Another mini-custom system!</p>
+            <p class="fragment">Another mini-custom OOP system!</p>
             <aside class="notes">
               <ul>
                 <li>Node structure inappropriate for outgoing API</li>
                 <li>Need to do custom processing per node</li>
+                <li>Merge in Rotten Tomatoes content</li>
               </ul>
             </aside>
           </section>
@@ -403,8 +409,68 @@
             <h2>When?</h2>
             <ul>
               <li class="fragment">Published == Public</li>
-              <li class="fragment"></li>
+              <li class="fragment">Public == In Elasticsearch</li>
+              <li class="fragment">Published == In Elasticsearch</li>
             </ul>
+            <p class="fragment">So when should it be public?</p>
+          </section>
+          <section>
+            <h2>Publication rules</h2>
+            <p>A Program is publishable when:</p>
+            <ul>
+              <li class="fragment">It is curatorially approved</li>
+              <li class="fragment">Actually it's a bit more complex than that</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Publication rules</h2>
+            <p>An Offer is publishable when:</p>
+            <ul>
+              <li class="fragment">It is curatorially approved</li>
+              <li class="fragment">&hellip; and the Offer is within its Publication window</li>
+              <li class="fragment">&hellip; or it's about to be</li>
+              <li class="fragment">Actually it's a bit more complex than that</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Publication rules</h2>
+            <p>An Asset is publishable when:</p>
+            <ul>
+              <li class="fragment">It is curatorially approved</li>
+              <li class="fragment">&hellip; and it has an Offer that is approved</li>
+              <li class="fragment">&hellip; <em>or</em> the Offer is within its Publication window</li>
+              <li class="fragment">&hellip; or it's about to be</li>
+              <li class="fragment">Actually it's a bit more complex than that</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Publication rules</h2>
+            <p>It's complicated&hellip;</p>
+          </section>
+          <section>
+            <h2>Cron &amp; Queues</h2>
+            <!-- @Todo: Reformat this mess. -->
+            <p>On Cron&hellip;</p>
+            <ul>
+              <li>Find assets in window, not published; queue them</li>
+              <li>Find offers of assets in window, not published; queue them</li>
+              <li>Assets not in window; queue them</li>
+              <li>Offers not in window; queue them</li>
+            </ul>
+            <p>On Queue&hellip;</p>
+            <ul>
+              <li>Publish offer</li>
+              <li>Publish related assets</li>
+              <li>Unpublish offers</li>
+              <li>Unpublish related assets</li>
+            </ul>
+          </section>
+          <section>
+
+          </section>
+          <section>
+            <p class="bigtext">One more thing&hellip;</p>
+
           </section>
         </section>
 
