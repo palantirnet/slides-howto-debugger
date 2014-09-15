@@ -56,8 +56,23 @@
       justify-content: space-around;
       flex-flow: row wrap;
     }
-    div.flowchart > div {
+    div.horiz-flowchart > div {
       margin: auto;
+    }
+
+    ul.horiz-list {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-around;
+      flex-wrap: nowrap;
+      list-style-type: none;
+    }
+    ul.horiz-list > li > h3 {
+      text-align: center;
+    }
+
+    .reveal ul > ul {
+      margin-top: 2em;
     }
 
     </style>
@@ -155,6 +170,14 @@
               <h3>Answer</h3>
               <img src="assets/elasticsearch.png" style="background-color: White;" alt="Elasticsearch"/>
             </div>
+            <aside class="notes">
+              <ul>
+                <li>Lucene engine, like Solr</li>
+                <li>JSON/REST based API</li>
+                <li>Dynamic schema (no restart)</li>
+                <li>Much easier for custom dev</li>
+              </ul>
+            </aside>
           </section>
           <section>
             <div class="horiz-flowchart">
@@ -168,10 +191,104 @@
               <div class="fragment">=></div>
               <div class="fragment">Client applications</div>
             </div>
-
-
           </section>
         </section>
+        <section>
+          <section>
+            <h2>The data model</h2>
+            <p class="fragment bigtext">(aka The Nodes)</p>
+          </section>
+          <section>
+            <h2>Core Domain model</h2>
+            <ul class="horiz-list">
+              <li class="fragment">
+                <h3>Program</h3>
+                <ul>
+                  <li>Movie</li>
+                  <li>Episode</li>
+                  <li>Useful data</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                <h3>Offer</h3>
+                <ul>
+                  <li>Buy this</li>
+                  <li>Refs programs</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                <h3>Asset</h3>
+                <ul>
+                  <li>Video data</li>
+                  <li>File in DAM</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                <h3>Channel</h3>
+                <ul>
+                  <li>EPG records</li>
+                  <li>Just categorization</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>Extended domain model</h2>
+            <ul class="horiz-list">
+              <li class="fragment">
+                <h3>Unadorned List</h3>
+                <ul>
+                  <li>Curated set of Programs</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                <h3>Collection</h3>
+                <ul>
+                  <li>Lists with extra images/clips</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                <h3>Genres</h3>
+                <ul>
+                  <li>More than tags</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+          <section>
+            <h2>Application domain model</h2>
+            <ul class="horiz-list">
+              <li class="fragment">
+                <h3>Hero</h3>
+                <ul>
+                  <li>"Hero" image in UI</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                <h3>String</h3>
+                <ul>
+                  <li>TOS</li>
+                  <li>Instructions</li>
+                </ul>
+              </li>
+              <li class="fragment">
+                <h3>Supported device</h3>
+                <ul>
+                  <li>Access control</li>
+                  <li>Filtering</li>
+                </ul>
+              </li>
+            </ul>
+          </section>
+        </section>
+        <section>
+
+        </section>
+
+        <div style="display: none">
+          <!--<img src="assets/application_javascript.svg" data-credit="http://findicons.com/icon/93997/application_javascript?id=93997" />-->
+          <!--<img src="assets/crystal_xml.svg" data-credit="http://findicons.com/icon/208188/crystal_xml?id=208226" />-->
+        </div>
 
 
         <section id="final">
