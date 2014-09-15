@@ -28,7 +28,7 @@ body {
 
 ::selection {
   color: white;
-  background: #0da9a0;
+  background: #ff5e99;
   text-shadow: none; }
 
 /*********************************************
@@ -42,8 +42,8 @@ body {
 .reveal h6 {
   margin: 0 0 20px 0;
   color: #eeeeee;
-  line-height: 1em;
-  letter-spacing: -0.015em;
+  line-height: 0.9em;
+  letter-spacing: -0.025em;
   font-weight: 600; }
 
 /*********************************************
@@ -159,24 +159,5 @@ q:after {
 p.bigtext {
   font-size: 150%; }
 
-/*********************************************
- * CUSTOM CLASSES (Grady)
-  *********************************************/
-.reveal small {
-  font-size: 82%;
-}
-
-.gray {
-  opacity: .5;
-}
-
-.blue {
-  color: #11aea6;
-  opacity: .95;
-}
-
-.image-build {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
+.reveal ul + p {
+  margin-top: 1em; }

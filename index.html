@@ -109,6 +109,7 @@
         <!-- Hagen, fill in slides as more section tags in this area. Nest a section inside a section to get the "down" effect. -->
 
         <section>
+          <!-- Hagen: fill in a description here of Ooyala and what they do, and what we were trying to accomplish in this specific case. Only a little sales-pitch-y. :-) -->
           <section>
             <h2>Videos for Apps</h2>
           </section>
@@ -117,7 +118,7 @@
         <section>
           <section>
             <q>You know what would be an awesome<br />platform for this project?</q>
-            <p><img src="assets/drupal-8-logo.png" class="fragment" style="width: 300px;" alt="Drupal 8 would be perfect!" /></p>
+            <p><img src="assets/drupal-8-logo.svg" class="fragment" style="width: 300px;" alt="Drupal 8 would be perfect!" /></p>
             <p class="fragment">Oh, right, 2013...</p>
           </section>
           <section>
@@ -185,7 +186,7 @@
               <div class="fragment">=></div>
               <div class="fragment"><img  src="assets/druplicon.svg" style="height: 200px;" alt="Drupal 7" /></div>
               <div class="fragment">=></div>
-              <div class="fragment"><img src="assets/elasticsearch.png" style="background-color: White;" alt="Elasticsearch" /></div>
+              <div class="fragment"><img src="assets/elasticsearch.png" style="background-color: White; border-radius: 10px;" alt="Elasticsearch" /></div>
               <div class="fragment">=></div>
               <div class="fragment"><img src="assets/silex-logo.png" style="height: 200px;" alt="Silex" /></div>
               <div class="fragment">=></div>
@@ -282,13 +283,130 @@
           </section>
         </section>
         <section>
-
+          <section>
+            <h2>Where does the data<br />come from?</h2>
+          </section>
+          <section>
+            <pre style="margin-top: -2em;"><code class="xml" data-trim>
+<FeatureExport>
+  <Header>
+    <ExhibitionWindow start="2013-03-12T13:00:00.0Z" end="2014-07-30T13:00:00.0Z"/>
+    <Destinations>
+      <Destination destinationID="svod" deviceId="STBmanaged" />
+    </Destinations>
+  </Header>
+  <Feature>
+    <Description>
+      <Title>The Dark Night</Title>
+      <SortTitle/>
+      <ShortSynopsis>When Batman, Gordon and Harvey Dent...</ShortSynopsis>
+      <Genre sub="1" main="4">Movie:Action/Adventure</Genre>
+      <Production>
+        <Credits><Credit role="Actor"><Person>Christian Bale</Person></Credit></Credits>
+      </Production>
+    </Description>
+  </Feature>
+  <Media>
+    <Videos>
+      <Video class="feature">
+        <Duration>PT152M0S</Duration>
+        <Files base="">
+          <File filename="ON600007.gxf" assetId="ON600007"/>
+        </Files>
+      </Video>
+    </Videos>
+    <Images>
+      <ImageSource base="">
+        <Image filename="the_dark_knight.jpg" imageId="I@023072"/>
+      </ImageSource>
+    </Images>
+  </Media>
+</FeatureExport>
+            </code></pre>
+            <aside class="notes">
+              <ul>
+                <li>Greatly simplified version of file</li>
+                <li>Note devices (destinations)</li>
+                <li>Note Offer info (exhibition window)</li>
+                <li>Note asset Id on video files (Asset files separate)</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h2>Importing</h2>
+            <ul>
+              <li class="fragment">Migrate</li>
+              <li class="fragment">Feeds</li>
+              <li class="fragment">Services</li>
+              <li class="fragment">Custom</li>
+            </ul>
+            <aside class="notes">
+              <ul>
+                <li>Migrate: Don't want CLI triggering, want REST</li>
+                <li>Feeds: Fetch-based, maps to one object, too over-built</li>
+                <li>Services: Clunky</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h2>Importing</h2>
+            <a href="http://querypath.org/"><img src="assets/querypath-200x333.png" style="background-color: White; border-radius: 10px;" alt="QueryPath, an XML parsing library" /></a>
+            <div class="fragment">
+              <div>+</div>
+              <p>Closure-based mapping objects</p>
+            </div>
+            <div class="fragment">
+              <div>=</div>
+              <p>Potentially multiple nodes</p>
+            </div>
+          </section>
+          <section>
+            <h2>HTTP</h2>
+            <ul>
+              <li class="fragment">Cheat: POST-only, no REST</li>
+              <li class="fragment">3 page callbacks, common code</li>
+              <li class="fragment">Vanilla Drupal</li>
+            </ul>
+          </section>
         </section>
-
-        <div style="display: none">
-          <!--<img src="assets/application_javascript.svg" data-credit="http://findicons.com/icon/93997/application_javascript?id=93997" />-->
-          <!--<img src="assets/crystal_xml.svg" data-credit="http://findicons.com/icon/208188/crystal_xml?id=208226" />-->
-        </div>
+        <section>
+          <section>
+            <h2>Editing</h2>
+            <p>Drupal's got this, right?</p>
+            <p class="fragment">...Almost</p>
+          </section>
+          <section>
+            Fill in more here.  Ideally with screen shots.
+          </section>
+        </section>
+        <section>
+          <section>
+            <h2>Where does the data go?</h2>
+          </section>
+          <section>
+            <h2>Export to ElasticSearch</h2>
+            <ul>
+              <li class="fragment">Lots of preprocessing needed</li>
+              <li class="fragment">Existing contribs weak (2013)</li>
+              <li class="fragment">Rules has too many moving parts</li>
+              <li class="fragment">Exporting some nodes requires others</li>
+            </ul>
+            <p class="fragment">Another mini-custom system!</p>
+            <aside class="notes">
+              <ul>
+                <li>Node structure inappropriate for outgoing API</li>
+                <li>Need to do custom processing per node</li>
+              </ul>
+            </aside>
+          </section>
+          <section>
+            <h2>When?</h2>
+            <ul>
+              <li class="fragment">Published == Public</li>
+              <li class="fragment"></li>
+            </ul>
+          </section>
+        </section>
 
 
         <section id="final">
