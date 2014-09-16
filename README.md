@@ -1,5 +1,5 @@
-Decoupled Drupal with Silex
+Elasticsearch and Drupal
 ===========================
 
-Presentation by [Larry Garfield](http://www.garfieldtech.com) and Hagen Last
+Presentation by [Bec White](http://palantir.net/about/team/bec-white)
 

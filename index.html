@@ -4,9 +4,9 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Decoupled Drupal with Silex</title>
+    <title>Elasticsearch and Drupal</title>
 
-    <meta name="author" content="Larry Garfield">
+    <meta name="author" content="Bec White">
 
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
@@ -82,401 +82,338 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <h2>Decoupled Drupal with Silex</h2>
-          <p>
-            <small>Presented by <a href="http://www.garfieldtech.com/">Larry Garfield</a> (<a href="http://twitter.com/Crell">@Crell</a>) / <a href="HAGEN FILL IN A LINK HERE">Hagen Last</a> (<a href="http://twitter.com/HAGEN, FILL THIS IN">@HAGEN IF YOU WANT IT</a>)</small>
-          </p>
-        </section>
-        <section>
-          <h2><a href="http://twitter.com/Crell">@Crell</a></h2>
-          <img src="palantir/palantirnet-logo-4c-reversed.svg" alt="Palantir.net Pays me, too!" style="width: 300px; float: right;" />
-          <ul>
-            <li>Senior Architect, <a href="http://www.palantir.net/">Palantir.net</a></li>
-            <li>Drupal 8 Web Services Lead</li>
-            <li>Drupal Representative, <a href="http://www.php-fig.org/">PHP-FIG</a></li>
-            <li>Advisor, Drupal Association</li>
-            <li>Loveable pedant</li>
-          </ul>
-        </section>
-        <section>
-          <h2>Hagen Last</h2>
-          <img src="assets/ooyala-logo.png" alt="Ooyala Pays me, too!" style="width: 300px; float: right;" />
-          <ul>
-            <li>Stuff about Hagen here</li>
-          </ul>
+          <h2>Elasticsearch and Drupal</h2>
+          <p><small>Presented by Bec White (<a href="http://twitter.com/becw">@becw</a>), Senior Engineer at <a href="http://palantir.net/">Palantir.net</a></small></p>
+          <p><small>Prepared for <a href="http://2014.drupalcampfv.org/">DrupalCamp Fox Valley</a>, September 2014</small></p>
         </section>
 
-        <!-- Hagen, fill in slides as more section tags in this area. Nest a section inside a section to get the "down" effect. -->
+<section>
+  <h2>"You Know, for Search"</h2>
+  <aside class="notes">
+    <p>Site search, but also working with tons of data, and also as a fast data backend for a JSON API.</p>
+    <p>Let's start with site search, though.</p>
+  </aside>
+</section>
 
-        <section>
-          <!-- Hagen: fill in a description here of Ooyala and what they do, and what we were trying to accomplish in this specific case. Only a little sales-pitch-y. :-) -->
-          <section>
-            <h2>Videos for Apps</h2>
-          </section>
-        </section>
+<section>
+  <h2>Search tools you may be familiar with...</h2>
+  <ul>
+    <li>Drupal core search</li>
+    <li>Apache Solr</li>
+    <li>Sphinx</li>
+    <li>Google Search Appliance</li>
+    <li class="fragment"><strong>Elasticsearch</strong></li>
+  </ul>
+</section>
 
-        <section>
-          <section>
-            <q>You know what would be an awesome<br />platform for this project?</q>
-            <p><img src="assets/drupal-8-logo.svg" class="fragment" style="width: 300px;" alt="Drupal 8 would be perfect!" /></p>
-            <p class="fragment">Oh, right, 2013...</p>
-          </section>
-          <section>
-            <h2>So now what?</h2>
-            <ol style="list-style-type: upper-alpha;">
-              <li class="fragment">Drupal 7 with Services</li>
-              <li class="fragment">Drupal 7 with RestWs</li>
-              <li class="fragment">Symfony</li>
-              <li class="fragment">Silex</li>
-            </ol>
-            <aside class="notes">
-              <ul>
-                <li>Services: Antiquated approach, not really REST</li>
-                <li>RestWs: Young, still dealing with poor Drupal APIs</li>
-                <li>Symfony: Unfamiliar, would be doing a lot of home-grown work</li>
-                <li>Silex: Very fast, but not even Symfony's UI support</li>
-              </ul>
-            </aside>
-          </section>
-          <section>
-            <h2>Why choose?</h2>
-            <div style="display: flex; align-items: flex-start; padding-top: 1em;">
-              <div class="fragment" style="width: 50%;">
-                <img src="assets/druplicon.svg" style="height: 200px;" alt="Drupal 7" />
-                <h3>Drupal 7</h3>
-                <p>Pro: CMS and page display</p>
-                <p>Con: Mediocre at REST</p>
-              </div>
-              <div class="fragment" style="width: 50%;">
-                <img src="assets/silex-logo.png" style="height: 200px;" alt="Silex" />
-                <h3>Silex</h3>
-                <p>Pro: HTTP handling</p>
-                <p>Con: Hand-rolled artisinal UI</p>
-              </div>
-            </div>
-          </section>
-          <section>
-            <div style="position: relative; text-align: center;">
-              <img  src="assets/druplicon.svg" style="height: 600px;" alt="Drupal 7" />
-              <img style="position: absolute; top: 20%; left: calc(50% - 100px); z-index: 10; width: 200px;" src="assets/silex-logo.png" alt="Silex" />
-            </div>
-          </section>
-          <section>
-            <h3>Communication?</h3>
-            <ul>
-              <li class="fragment">Drupal data is Drupal's</li>
-              <li class="fragment">Editorial structure != API structure</li>
-            </ul>
-            <div style="margin-top: 1em;" class="fragment">
-              <h3>Answer</h3>
-              <img src="assets/elasticsearch.png" style="background-color: White;" alt="Elasticsearch"/>
-            </div>
-            <aside class="notes">
-              <ul>
-                <li>Lucene engine, like Solr</li>
-                <li>JSON/REST based API</li>
-                <li>Dynamic schema (no restart)</li>
-                <li>Much easier for custom dev</li>
-              </ul>
-            </aside>
-          </section>
-          <section>
-            <div class="horiz-flowchart">
-              <div>Source XML</div>
-              <div class="fragment">=></div>
-              <div class="fragment"><img  src="assets/druplicon.svg" style="height: 200px;" alt="Drupal 7" /></div>
-              <div class="fragment">=></div>
-              <div class="fragment"><img src="assets/elasticsearch.png" style="background-color: White; border-radius: 10px;" alt="Elasticsearch" /></div>
-              <div class="fragment">=></div>
-              <div class="fragment"><img src="assets/silex-logo.png" style="height: 200px;" alt="Silex" /></div>
-              <div class="fragment">=></div>
-              <div class="fragment">Client applications</div>
-            </div>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h2>The data model</h2>
-            <p class="fragment bigtext">(aka The Nodes)</p>
-          </section>
-          <section>
-            <h2>Core Domain model</h2>
-            <ul class="horiz-list">
-              <li class="fragment">
-                <h3>Program</h3>
-                <ul>
-                  <li>Movie</li>
-                  <li>Episode</li>
-                  <li>Useful data</li>
-                </ul>
-              </li>
-              <li class="fragment">
-                <h3>Offer</h3>
-                <ul>
-                  <li>Buy this</li>
-                  <li>Refs programs</li>
-                </ul>
-              </li>
-              <li class="fragment">
-                <h3>Asset</h3>
-                <ul>
-                  <li>Video data</li>
-                  <li>File in DAM</li>
-                </ul>
-              </li>
-              <li class="fragment">
-                <h3>Channel</h3>
-                <ul>
-                  <li>EPG records</li>
-                  <li>Just categorization</li>
-                </ul>
-              </li>
-            </ul>
-          </section>
-          <section>
-            <h2>Extended domain model</h2>
-            <ul class="horiz-list">
-              <li class="fragment">
-                <h3>Unadorned List</h3>
-                <ul>
-                  <li>Curated set of Programs</li>
-                </ul>
-              </li>
-              <li class="fragment">
-                <h3>Collection</h3>
-                <ul>
-                  <li>Lists with extra images/clips</li>
-                </ul>
-              </li>
-              <li class="fragment">
-                <h3>Genres</h3>
-                <ul>
-                  <li>More than tags</li>
-                </ul>
-              </li>
-            </ul>
-          </section>
-          <section>
-            <h2>Application domain model</h2>
-            <ul class="horiz-list">
-              <li class="fragment">
-                <h3>Hero</h3>
-                <ul>
-                  <li>"Hero" image in UI</li>
-                </ul>
-              </li>
-              <li class="fragment">
-                <h3>String</h3>
-                <ul>
-                  <li>TOS</li>
-                  <li>Instructions</li>
-                </ul>
-              </li>
-              <li class="fragment">
-                <h3>Supported device</h3>
-                <ul>
-                  <li>Access control</li>
-                  <li>Filtering</li>
-                </ul>
-              </li>
-            </ul>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h2>Where does the data<br />come from?</h2>
-          </section>
-          <section>
-            <pre style="margin-top: -2em;"><code class="xml" data-trim>
-<FeatureExport>
-  <Header>
-    <ExhibitionWindow start="2013-03-12T13:00:00.0Z" end="2014-07-30T13:00:00.0Z"/>
-    <Destinations>
-      <Destination destinationID="svod" deviceId="STBmanaged" />
-    </Destinations>
-  </Header>
-  <Feature>
-    <Description>
-      <Title>The Dark Night</Title>
-      <SortTitle/>
-      <ShortSynopsis>When Batman, Gordon and Harvey Dent...</ShortSynopsis>
-      <Genre sub="1" main="4">Movie:Action/Adventure</Genre>
-      <Production>
-        <Credits><Credit role="Actor"><Person>Christian Bale</Person></Credit></Credits>
-      </Production>
-    </Description>
-  </Feature>
-  <Media>
-    <Videos>
-      <Video class="feature">
-        <Duration>PT152M0S</Duration>
-        <Files base="">
-          <File filename="ON600007.gxf" assetId="ON600007"/>
-        </Files>
-      </Video>
-    </Videos>
-    <Images>
-      <ImageSource base="">
-        <Image filename="the_dark_knight.jpg" imageId="I@023072"/>
-      </ImageSource>
-    </Images>
-  </Media>
-</FeatureExport>
-            </code></pre>
-            <aside class="notes">
-              <ul>
-                <li>Greatly simplified version of file</li>
-                <li>Note devices (destinations)</li>
-                <li>Note Offer info (exhibition window)</li>
-                <li>Note asset Id on video files (Asset files separate)</li>
-              </ul>
-            </aside>
-          </section>
-          <section>
-            <h2>Importing</h2>
-            <ul>
-              <li class="fragment">Migrate</li>
-              <li class="fragment">Feeds</li>
-              <li class="fragment">Services</li>
-              <li class="fragment">Custom</li>
-            </ul>
-            <aside class="notes">
-              <ul>
-                <li>Migrate: Don't want CLI triggering, want REST</li>
-                <li>Feeds: Fetch-based, maps to one object, too over-built</li>
-                <li>Services: Clunky</li>
-              </ul>
-            </aside>
-          </section>
-          <section>
-            <h2>Importing</h2>
-            <a href="http://querypath.org/"><img src="assets/querypath-200x333.png" style="background-color: White; border-radius: 10px;" alt="QueryPath, an XML parsing library" /></a>
-            <div class="fragment">
-              <div>+</div>
-              <p>Closure-based mapping objects</p>
-            </div>
-            <div class="fragment">
-              <div>=</div>
-              <p>Potentially multiple nodes</p>
-            </div>
-            <aside class="notes">
-              <ul>
-                <li>OOP made it easy</li>
-              </ul>
-            </aside>
-          </section>
-          <section>
-            <h2>HTTP</h2>
-            <ul>
-              <li class="fragment">Cheat: POST-only, no REST</li>
-              <li class="fragment">3 page callbacks, common code</li>
-              <li class="fragment">Vanilla Drupal</li>
-            </ul>
-          </section>
-        </section>
-        <section>
-          <section>
-            <h2>Editing</h2>
-            <p>Drupal's got this, right?</p>
-            <p class="fragment">...Almost</p>
-          </section>
-          <section>
-            Fill in more here.  Ideally with screen shots.
-          </section>
-        </section>
-        <section>
-          <section>
-            <h2>Where does the data go?</h2>
-          </section>
-          <section>
-            <h2>Export to ElasticSearch</h2>
-            <ul>
-              <li class="fragment">Lots of preprocessing needed</li>
-              <li class="fragment">Existing contribs weak (2013)</li>
-              <li class="fragment">Rules has too many moving parts</li>
-              <li class="fragment">Exporting some nodes requires others</li>
-            </ul>
-            <p class="fragment">Another mini-custom OOP system!</p>
-            <aside class="notes">
-              <ul>
-                <li>Node structure inappropriate for outgoing API</li>
-                <li>Need to do custom processing per node</li>
-                <li>Merge in Rotten Tomatoes content</li>
-              </ul>
-            </aside>
-          </section>
-          <section>
-            <h2>When?</h2>
-            <ul>
-              <li class="fragment">Published == Public</li>
-              <li class="fragment">Public == In Elasticsearch</li>
-              <li class="fragment">Published == In Elasticsearch</li>
-            </ul>
-            <p class="fragment">So when should it be public?</p>
-          </section>
-          <section>
-            <h2>Publication rules</h2>
-            <p>A Program is publishable when:</p>
-            <ul>
-              <li class="fragment">It is curatorially approved</li>
-              <li class="fragment">Actually it's a bit more complex than that</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Publication rules</h2>
-            <p>An Offer is publishable when:</p>
-            <ul>
-              <li class="fragment">It is curatorially approved</li>
-              <li class="fragment">&hellip; and the Offer is within its Publication window</li>
-              <li class="fragment">&hellip; or it's about to be</li>
-              <li class="fragment">Actually it's a bit more complex than that</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Publication rules</h2>
-            <p>An Asset is publishable when:</p>
-            <ul>
-              <li class="fragment">It is curatorially approved</li>
-              <li class="fragment">&hellip; and it has an Offer that is approved</li>
-              <li class="fragment">&hellip; <em>or</em> the Offer is within its Publication window</li>
-              <li class="fragment">&hellip; or it's about to be</li>
-              <li class="fragment">Actually it's a bit more complex than that</li>
-            </ul>
-          </section>
-          <section>
-            <h2>Publication rules</h2>
-            <p>It's complicated&hellip;</p>
-          </section>
-          <section>
-            <h2>Cron &amp; Queues</h2>
-            <!-- @Todo: Reformat this mess. -->
-            <p>On Cron&hellip;</p>
-            <ul>
-              <li>Find assets in window, not published; queue them</li>
-              <li>Find offers of assets in window, not published; queue them</li>
-              <li>Assets not in window; queue them</li>
-              <li>Offers not in window; queue them</li>
-            </ul>
-            <p>On Queue&hellip;</p>
-            <ul>
-              <li>Publish offer</li>
-              <li>Publish related assets</li>
-              <li>Unpublish offers</li>
-              <li>Unpublish related assets</li>
-            </ul>
-          </section>
-          <section>
+<section>
+  <h2>Elasticsearch is...</h2>
+  <ul>
+    <li>An open source search server</li>
+    <li>Based on the Lucene search engine (like Solr)</li>
+    <li>Distributed and scalable</li>
+    <li>Speaks JSON</li>
+  </ul>
+</section>
 
-          </section>
-          <section>
-            <p class="bigtext">One more thing&hellip;</p>
+<section>
+  <h2>What is a search server?</h2>
+  <ul>
+    <li class="fragment">Analyzes text content from your site</li>
+    <li class="fragment">Analyzes queries from your users</li>
+    <li class="fragment">Finds matches between the two</li>
+  </ul>
 
-          </section>
-        </section>
+  <aside class="notes">
+    <p>Generally, your site sends data to the search server when your content is updated--hook_node_save()</p>
+    <p>usually you will just queue content for "indexing" in hook_node_save(), because performance. then it gets indexed on cron.</p>
+    <p>analysis happens when content is indexed. indexing associates the original document (via id, link, other metadata) with its analyzed content.</p>
+    <p>"analysis" is making generalizations like:
+      <ul>
+        <li>The document contains the words "search", "for", "an", "answer"</li>
+        <li>The word "search" is rare among this body of documents</li>
+        <li>The word "Searching" is equivalent to the word "search"</li>
+      </ul>
+    </p>
+    <p>happens on both content and queries!</p>
+    <p>analysis--of content, and of queries--are the basis for returning search results</p>
+    <p>the processing/generalizations are useful beyond just searches:
+      <ul>
+        <li>add depth like spelling suggestions and "more like this" to searches</li>
+        <li>improve sorting (remove leading "the", "a", or punctuation, transliterate)</li>
+        <li>allow efficient sorting and filtering of large datasets</li>
+      </ul>
+    </p>
+  </aside>
+</section>
 
+<section>
+  <h2>When is a search server necessary?</h2>
+  <ul>
+    <li class="fragment">For full text search</li>
+    <li class="fragment">When you have lots of content</li>
+    <li class="fragment">When Drupal isn't optimized for the kind of queries you want to perform</li>
+  </ul>
+</section>
+
+<section>
+  <h2>What is "full text search"?</h2>
+  <p class="fragment">Matching documents that don't contain the exact query.</p>
+  <p class="fragment">The query "answer search" should match a document that contains "Searching for an answer"</p>
+
+  <aside class="notes">
+    <p>Views "contains" text searches (case-insensitive because MySQL configuration but otherwise exact match only)</p>
+    <p>SQL LIKE wildcard queries</p>
+    <p>Drupal core search (analyzes text), so actually can be sufficient when you don't have too much content and don't need fancy features</p>
+  </aside>
+</section>
+
+<section>
+  <h2>What is "lots of documents"?</h2>
+  <p class="fragment">In Drupal, over 10,000 documents.</p>
+  <p class="fragment">(Nodes are documents)</p>
+  <aside class="notes">
+    <p>Drupal core search performs poorly. After about 5,000 to 10,000 documents it becomes noticeable; after 20,000, it is unbearable.</p>
+  </aside>
+</section>
+<section>
+  <h2>Drupal? Not optimized?</h2>
+  <p class="fragment">Yes, for things like:</p>
+  <ul>
+    <li class="fragment">Listing, sorting, and filtering 50,000 to millions of nodes</li>
+    <li class="fragment">Responding promptly with a limited set of information from a node</li>
+    <li class="fragment">Smart autocomplete</li>
+    <li class="fragment">Textual analysis (like related content)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Say we have thousands of documents and want full text search...</h2>
+</section>
+
+<section>
+  <h2>What next?</h2>
+  <ul>
+    <li>Get an Elasticsearch server</li>
+    <li>Install some modules</li>
+    <li>Click a lot</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Running Elasticsearch for development</h2>
+  <a href="https://gist.github.com/becw/06bc47ce2dc8a7205ed8">Vagrant setup</a>
+</section>
+
+<section>
+  <h2>Beware</h2>
+  <p>Elasticsearch doesn't do access control. You <strong>must</strong> configure that outside of Elasticsearch.</p>
+</section>
+
+<section>
+  <h2>Which modules?</h2>
+  <ul>
+    <li>Entity</li>
+    <li>Search API</li>
+    <li>Composer Manager</li>
+    <li>Elasticsearch Connector</li>
+  </ul>
+</section>
+
+<section>
+  <pre>$ drush dl entity search_api composer_manager elasticsearch_connector
+$ drush en composer_manager elasticsearch_connector_search_api search_api_views</pre>
+</section>
+
+<section>
+  <h2>Elasticsearch Connector</h2>
+  <ul>
+    <li><a href="http://drupal.org/project/elasticsearch_connector">http://drupal.org/project/elasticsearch_connector</a></li>
+    <li>Depends on the Elasticsearch PHP library</li>
+    <li>Thin layer to connect to an Elasticsearch cluster</li>
+    <li>Includes a separate Search API integration module</li>
+  </ul>
+  <aside class="notes">
+    <p>The Elasticsearch PHP library is Apache2 licensed.</p>
+    <p>"easy install" option - don't use it, use composer manager + composer instead</p>
+  </aside>
+</section>
+
+<section>
+  <h2>Configuration checklist</h2>
+  <ul>
+    <li>Elasticsearch Connector cluster</li>
+    <li>Search API server</li>
+    <li>Search API index</li>
+    <li>A search view</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Terminology overload</h2>
+  <ul class="fragment">
+    <li>Elasticsearch has "clusters", "nodes", "indexes", and "types"</li>
+    <li>Elasticsearch Connector has "clusters"</li>
+    <li>Search API has "servers" and "indexes"</li>
+  </ul>
+  <br /><br />
+  <h2 class="fragment">Your "Search API index" does not correspond with an "Elasticsearch index"</h2>
+  <aside class="notes">
+    <ul>
+      <li>Elasticsearch Connector "clusters" manage connections to search servers</li>
+      <li>Search API "servers" correspond with "clusters"</li>
+      <li>Search API "indexes" configure how specific content is indexed</li>
+    </ul>
+  </aside>
+</section>
+
+<section>
+  <h2>Search API indexes</h2>
+  <h3>Configure how content is indexed</h3>
+  <p>This is not specific to Elasticsearch, but has some Elasticsearch-specific options.</p>
+  <ul class="fragment">
+    <li>Which fields are searchable?</li>
+    <li>How are they searchable?</li>
+    <li>Should any nodes be excluded?</li>
+    <li>Should additional data be included in the index?</li>
+    <li>Data "type" name (Elasticsearch)</li>
+    <li>Result highlighting (Elasticsearch)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Fancy toppings</h2>
+  <ul>
+    <li>Views</li>
+    <li>Facet API</li>
+  </ul>
+  <aside class="notes">
+    <p>enable the views or facetapi module, then enable the corresponding search api module.</p>
+  </aside>
+</section>
+
+<section>
+  <h2>Search concepts</h2>
+  <ul class="fragment">
+    <li>Tokens</li>
+    <li>Field types</li>
+    <li>Queries and filters</li>
+    <li>Facets</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Tokens</h2>
+  <ul>
+    <li class="fragment">Case and punctuation</li>
+    <li class="fragment">Stemming ("searching" => "search")</li>
+    <li class="fragment">Stop words ("a", "an", "the", "for")</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Field types</h2>
+  <p>Elasticsearch field configuration determines how data is analyzed for search.</p>
+  <ul class="fragment">
+    <li>full text</li>
+    <li>term</li>
+    <li>number</li>
+    <li>date</li>
+  </ul>
+  <aside class="notes">
+    <p>Use term fields for things that require exact match--facets are an important example of this. or sorting.</p>
+  </aside>
+</section>
+
+<section>
+  <h2>Queries vs. filters</h2>
+  <ul class="fragment">
+    <li>Queries are for full-text search</li>
+    <li>Filters limit by and exact value</li>
+    <li>… and support caching</li>
+  </ul>
+  <aside class="notes">
+    <p>Can configure which is used when building Search API Views</p>
+  </aside>
+</section>
+
+<section>
+  <h2>Facets</h2>
+  <ul class="fragment">
+    <li>Think categories on shopping sites</li>
+    <li>Allow narrowing searches by field values that appear in the results</li>
+    <li>Provide counts per value</li>
+    <li>Facet API provides core blocks and panel panes to display facet data</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Poking Elasticsearch</h2>
+  <ul>
+    <li>elasticsearch-head</li>
+    <li>http://localhost:9200/_plugin/head/</li>
+    <li>Examining index configuration</li>
+    <li>Viewing records</li>
+    <li>Testing API calls</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Custom integration</h2>
+  <ul class="fragment">
+    <li>Why would you customize?</li>
+    <li>Which PHP library?</li>
+    <li>Which Javascript library?</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Why would you customize?</h2>
+  <ul class="fragment">
+    <li><strong>The default "full text" analyzer doesn't do stemming</strong></li>
+    <li>Your data contains diacritics or accented characters</li>
+    <li>To use Elasticsearch as an autocomplete backend</li>
+    <li>You read something cool in the Elasticsearch docs</li>
+  </ul>
+</section>
+
+<section>
+  <h2>At Palantir.net, we've used Elasticsearch...</h2>
+  <p>... for special cases, when needs went far beyond "site search".</p>
+</section>
+
+<section>
+  <h2>Such as?</h2>
+  <ul class="fragment">
+    <li>As a fast, decoupled data backend for an API service</li>
+    <li>To provide fuzzy autocomplete matching</li>
+    <li>For an inline lookup widget with super fast filtering and searching across millions of records</li>
+    <li>For generating views of millions of records, for faceting, for views-based record search</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Elasticsearch Libraries</h2>
+  <p>Find them on <a href="http://www.elasticsearch.org/">Elasticsearch.org</a>.</p>
+  <ul>
+    <li><a href="http://www.elasticsearch.org/guide/en/elasticsearch/client/php-api/current/index.html">PHP library</a></li>
+    <li>Get the PHP library with Composer.</li>
+    <li><a href="http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/index.html">Javascript library</a></li>
+    <li>jQuery integration requires jQuery 1.5 or newer (in Drupal, this means using jQuery Update)</li>
+  </ul>
+</section>
+
+<section>
+  <h2>Fun features</h2>
+  <ul>
+    <li>More like this</li>
+    <li>Percolate</li>
+    <li>Explain</li>
+    <li>Analyze</li>
+  </ul>
+</section>
 
         <section id="final">
-          <h2>Larry Garfield, Hagen Last</h2>
           <p><a href="http://www.palantir.net/">Palantir.net</a></p>
           <p>Let's make something good together</p>
           <p>Keep tabs on our work at <a href="http://twitter.com/Palantir">@Palantir</a></p>
