@@ -180,11 +180,14 @@
   <h2>Drupal? Not optimized?</h2>
   <p class="fragment">Yes, for things like:</p>
   <ul>
-    <li class="fragment">Listing, sorting, and filtering 50,000 to millions of nodes</li>
+    <li class="fragment">Listing, sorting, and filtering tens of thousands to millions of nodes</li>
     <li class="fragment">Responding promptly with a limited set of information from a node</li>
     <li class="fragment">Smart autocomplete</li>
     <li class="fragment">Textual analysis (like related content)</li>
   </ul>
+  <aside class="notes">
+    <p>When a query seems slow due to scale and complexity, consider shifting it to Elasticsearch instead of optimizing MySQL</p>
+  </aside>
 </section>
 
 <section>
