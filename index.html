@@ -4,7 +4,7 @@
   <head>
     <meta charset="utf-8">
 
-    <title>Elasticsearch and Drupal</title>
+    <title>How to use the NetBeans Debugger</title>
 
     <meta name="author" content="Bec White">
 
@@ -82,338 +82,102 @@
     <div class="reveal">
       <div class="slides">
         <section>
-          <h2>Elasticsearch and Drupal</h2>
+          <h2>How to use the NetBeans Debugger</h2>
           <p><small>Presented by Bec White (<a href="http://twitter.com/becw">@becw</a>), Senior Engineer at <a href="http://palantir.net/">Palantir.net</a></small></p>
           <p><small>Prepared for <a href="http://2014.drupalcampfv.org/">DrupalCamp Fox Valley</a>, September 2014</small></p>
         </section>
 
 <section>
-  <h2>"You Know, for Search"</h2>
+  <h2>But I'm already debugging!</h2>
   <aside class="notes">
-    <p>Site search, but also working with tons of data, and also as a fast data backend for a JSON API.</p>
-    <p>Let's start with site search, though.</p>
+    <p>"Debugging" is a generic term, but there is also a specific tool called a "debugger".</p>
+    <p>Allows you to step through code as it is being executed, and examine variables and branching logic as you go.</p>
   </aside>
 </section>
 
 <section>
-  <h2>Search tools you may be familiar with...</h2>
+  <h2>When to use a debugger</h2>
+  <p>If you find yourself...</p>
   <ul>
-    <li>Drupal core search</li>
-    <li>Apache Solr</li>
-    <li>Sphinx</li>
-    <li>Google Search Appliance</li>
-    <li class="fragment"><strong>Elasticsearch</strong></li>
+    <li>Dropping several dpm() statements into your code</li>
+    <li>Reloading and reloading and reloading</li>
   </ul>
 </section>
 
 <section>
-  <h2>Elasticsearch is...</h2>
+  <h2>The debugging stack</h2>
   <ul>
-    <li>An open source search server</li>
-    <li>Based on the Lucene search engine (like Solr)</li>
-    <li>Distributed and scalable</li>
-    <li>Speaks JSON</li>
+    <li><a href="http://www.mamp.info/">MAMP</a>, or something to run your web stack</li>
+    <li><a href="http://xdebug.org/">XDebug</a>, a PHP debugger</li>
+    <li><a href="https://netbeans.org/">NetBeans</a>, an IDE</li>
   </ul>
 </section>
 
 <section>
-  <h2>What is a search server?</h2>
+  <h2>IDE = Integrated Development Environment</h2>
+</section>
+
+<section>
+  <h2>Configuring PHP</h2>
+  <p>Enable it in your php.ini</p>
+</section>
+
+<section>
+  <h2>Configuring PHP in MAMP</h2>
+  <p>MAMP comes with XDebug installed, but you will need to enable it in your php.ini in order to use it.</p>
   <ul>
-    <li class="fragment">Analyzes text content from your site</li>
-    <li class="fragment">Analyzes queries from your users</li>
-    <li class="fragment">Finds matches between the two</li>
+    <li>What version of PHP are you running?</li>
+    <li>Edit the right php.ini</li>
+    <li>Save the file, and restart MAMP</li>
   </ul>
-
-  <aside class="notes">
-    <p>Generally, your site sends data to the search server when your content is updated--hook_node_save()</p>
-    <p>usually you will just queue content for "indexing" in hook_node_save(), because performance. then it gets indexed on cron.</p>
-    <p>analysis happens when content is indexed. indexing associates the original document (via id, link, other metadata) with its analyzed content.</p>
-    <p>"analysis" is making generalizations like:
-      <ul>
-        <li>The document contains the words "search", "for", "an", "answer"</li>
-        <li>The word "search" is rare among this body of documents</li>
-        <li>The word "Searching" is equivalent to the word "search"</li>
-      </ul>
-    </p>
-    <p>happens on both content and queries!</p>
-    <p>analysis--of content, and of queries--are the basis for returning search results</p>
-    <p>the processing/generalizations are useful beyond just searches:
-      <ul>
-        <li>add depth like spelling suggestions and "more like this" to searches</li>
-        <li>improve sorting (remove leading "the", "a", or punctuation, transliterate)</li>
-        <li>allow efficient sorting and filtering of large datasets</li>
-      </ul>
-    </p>
-  </aside>
 </section>
 
 <section>
-  <h2>When is a search server necessary?</h2>
+  <h2>Configuring NetBeans</h2>
   <ul>
-    <li class="fragment">For full text search</li>
-    <li class="fragment">When you have lots of content</li>
-    <li class="fragment">When Drupal isn't optimized for the kind of queries you want to perform</li>
+    <li>Check the PHP debugging settings</li>
+    <li>Configure the project run configuration</li>
   </ul>
 </section>
 
 <section>
-  <h2>What is "full text search"?</h2>
-  <p class="fragment">Matching documents that don't contain the exact query.</p>
-  <p class="fragment">The query "answer search" should match a document that contains "Searching for an answer"</p>
+  <section>
+    <h2>Debugging concepts</h2>
+  </section>
 
-  <aside class="notes">
-    <p>Views "contains" text searches (case-insensitive because MySQL configuration but otherwise exact match only)</p>
-    <p>SQL LIKE wildcard queries</p>
-    <p>Drupal core search (analyzes text), so actually can be sufficient when you don't have too much content and don't need fancy features</p>
-  </aside>
+  <section>
+    <h2>Breakpoints</h2>
+    <p class="fragment">Points in the code you want to examine.</p>
+  </section>
+
+  <section>
+    <h2>What can I find out?</h2>
+  </section>
+
+  <section>
+    <h2>Does this conditional execute?</h2>
+    <p>Just put a breakpoint there</p>
+  </section>
+
+  <section>
+    <h2>What values do variables have at this point?</h2>
+    <p>Examine variables</p>
+  </section>
+
+  <section>
+    <h2>Where is this code called from?</h2>
+    <p>Examine the call stack</p>
+  </section>
+
+  <section>
+    <h2>What gets called after this?</h2>
+    <p>Step through the code using "step over/into/out"</p>
+  </section>
+
 </section>
 
 <section>
-  <h2>What is "lots of documents"?</h2>
-  <p class="fragment">In Drupal, over 10,000 documents.</p>
-  <p class="fragment">(Nodes are documents)</p>
-  <aside class="notes">
-    <p>Drupal core search performs poorly. After about 5,000 to 10,000 documents it becomes noticeable; after 20,000, it is unbearable.</p>
-  </aside>
-</section>
-<section>
-  <h2>Drupal? Not optimized?</h2>
-  <p class="fragment">Yes, for things like:</p>
-  <ul>
-    <li class="fragment">Listing, sorting, and filtering tens of thousands to millions of nodes</li>
-    <li class="fragment">Responding promptly with a limited set of information from a node</li>
-    <li class="fragment">Smart autocomplete</li>
-    <li class="fragment">Textual analysis (like related content)</li>
-  </ul>
-  <aside class="notes">
-    <p>When a query seems slow due to scale and complexity, consider shifting it to Elasticsearch instead of optimizing MySQL</p>
-  </aside>
-</section>
-
-<section>
-  <h2>Say we have thousands of documents and want full text search...</h2>
-</section>
-
-<section>
-  <h2>What next?</h2>
-  <ul>
-    <li>Get an Elasticsearch server</li>
-    <li>Install some modules</li>
-    <li>Click a lot</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Running Elasticsearch for development</h2>
-  <a href="https://gist.github.com/becw/06bc47ce2dc8a7205ed8">Vagrant setup</a>
-</section>
-
-<section>
-  <h2>Beware</h2>
-  <p>Elasticsearch doesn't do access control. You <strong>must</strong> configure that outside of Elasticsearch.</p>
-</section>
-
-<section>
-  <h2>Which modules?</h2>
-  <ul>
-    <li>Entity</li>
-    <li>Search API</li>
-    <li>Composer Manager</li>
-    <li>Elasticsearch Connector</li>
-  </ul>
-</section>
-
-<section>
-  <pre>$ drush dl entity search_api composer_manager elasticsearch_connector
-$ drush en composer_manager elasticsearch_connector_search_api search_api_views</pre>
-</section>
-
-<section>
-  <h2>Elasticsearch Connector</h2>
-  <ul>
-    <li><a href="http://drupal.org/project/elasticsearch_connector">http://drupal.org/project/elasticsearch_connector</a></li>
-    <li>Depends on the Elasticsearch PHP library</li>
-    <li>Thin layer to connect to an Elasticsearch cluster</li>
-    <li>Includes a separate Search API integration module</li>
-  </ul>
-  <aside class="notes">
-    <p>The Elasticsearch PHP library is Apache2 licensed.</p>
-    <p>"easy install" option - don't use it, use composer manager + composer instead</p>
-  </aside>
-</section>
-
-<section>
-  <h2>Configuration checklist</h2>
-  <ul>
-    <li>Elasticsearch Connector cluster</li>
-    <li>Search API server</li>
-    <li>Search API index</li>
-    <li>A search view</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Terminology overload</h2>
-  <ul class="fragment">
-    <li>Elasticsearch has "clusters", "nodes", "indexes", and "types"</li>
-    <li>Elasticsearch Connector has "clusters"</li>
-    <li>Search API has "servers" and "indexes"</li>
-  </ul>
-  <br /><br />
-  <h2 class="fragment">Your "Search API index" does not correspond with an "Elasticsearch index"</h2>
-  <aside class="notes">
-    <ul>
-      <li>Elasticsearch Connector "clusters" manage connections to search servers</li>
-      <li>Search API "servers" correspond with "clusters"</li>
-      <li>Search API "indexes" configure how specific content is indexed</li>
-    </ul>
-  </aside>
-</section>
-
-<section>
-  <h2>Search API indexes</h2>
-  <h3>Configure how content is indexed</h3>
-  <p>This is not specific to Elasticsearch, but has some Elasticsearch-specific options.</p>
-  <ul class="fragment">
-    <li>Which fields are searchable?</li>
-    <li>How are they searchable?</li>
-    <li>Should any nodes be excluded?</li>
-    <li>Should additional data be included in the index?</li>
-    <li>Data "type" name (Elasticsearch)</li>
-    <li>Result highlighting (Elasticsearch)</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Fancy toppings</h2>
-  <ul>
-    <li>Views</li>
-    <li>Facet API</li>
-  </ul>
-  <aside class="notes">
-    <p>enable the views or facetapi module, then enable the corresponding search api module.</p>
-  </aside>
-</section>
-
-<section>
-  <h2>Search concepts</h2>
-  <ul class="fragment">
-    <li>Tokens</li>
-    <li>Field types</li>
-    <li>Queries and filters</li>
-    <li>Facets</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Tokens</h2>
-  <ul>
-    <li class="fragment">Case and punctuation</li>
-    <li class="fragment">Stemming ("searching" => "search")</li>
-    <li class="fragment">Stop words ("a", "an", "the", "for")</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Field types</h2>
-  <p>Elasticsearch field configuration determines how data is analyzed for search.</p>
-  <ul class="fragment">
-    <li>full text</li>
-    <li>term</li>
-    <li>number</li>
-    <li>date</li>
-  </ul>
-  <aside class="notes">
-    <p>Use term fields for things that require exact match--facets are an important example of this. or sorting.</p>
-  </aside>
-</section>
-
-<section>
-  <h2>Queries vs. filters</h2>
-  <ul class="fragment">
-    <li>Queries are for full-text search</li>
-    <li>Filters limit by and exact value</li>
-    <li>… and support caching</li>
-  </ul>
-  <aside class="notes">
-    <p>Can configure which is used when building Search API Views</p>
-  </aside>
-</section>
-
-<section>
-  <h2>Facets</h2>
-  <ul class="fragment">
-    <li>Think categories on shopping sites</li>
-    <li>Allow narrowing searches by field values that appear in the results</li>
-    <li>Provide counts per value</li>
-    <li>Facet API provides core blocks and panel panes to display facet data</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Poking Elasticsearch</h2>
-  <ul>
-    <li>elasticsearch-head</li>
-    <li>http://localhost:9200/_plugin/head/</li>
-    <li>Examining index configuration</li>
-    <li>Viewing records</li>
-    <li>Testing API calls</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Custom integration</h2>
-  <ul class="fragment">
-    <li>Why would you customize?</li>
-    <li>Which PHP library?</li>
-    <li>Which Javascript library?</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Why would you customize?</h2>
-  <ul class="fragment">
-    <li><strong>The default "full text" analyzer doesn't do stemming</strong></li>
-    <li>Your data contains diacritics or accented characters</li>
-    <li>To use Elasticsearch as an autocomplete backend</li>
-    <li>You read something cool in the Elasticsearch docs</li>
-  </ul>
-</section>
-
-<section>
-  <h2>At Palantir.net, we've used Elasticsearch...</h2>
-  <p>... for special cases, when needs went far beyond "site search".</p>
-</section>
-
-<section>
-  <h2>Such as?</h2>
-  <ul class="fragment">
-    <li>As a fast, decoupled data backend for an API service</li>
-    <li>To provide fuzzy autocomplete matching</li>
-    <li>For an inline lookup widget with super fast filtering and searching across millions of records</li>
-    <li>For generating views of millions of records, for faceting, for views-based record search</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Elasticsearch Libraries</h2>
-  <p>Find them on <a href="http://www.elasticsearch.org/">Elasticsearch.org</a>.</p>
-  <ul>
-    <li><a href="http://www.elasticsearch.org/guide/en/elasticsearch/client/php-api/current/index.html">PHP library</a></li>
-    <li>Get the PHP library with Composer.</li>
-    <li><a href="http://www.elasticsearch.org/guide/en/elasticsearch/client/javascript-api/current/index.html">Javascript library</a></li>
-    <li>jQuery integration requires jQuery 1.5 or newer (in Drupal, this means using jQuery Update)</li>
-  </ul>
-</section>
-
-<section>
-  <h2>Fun features</h2>
-  <ul>
-    <li>More like this</li>
-    <li>Percolate</li>
-    <li>Explain</li>
-    <li>Analyze</li>
-  </ul>
+  <h2><a href="https://docs.google.com/a/palantir.net/document/d/15hJn_lUx4_8qENjjeKEqbN3vrV3ducFPNl_PRcrrETw/">The details, step by step</a></h2>
 </section>
 
         <section id="final">
